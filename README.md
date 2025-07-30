@@ -1,12 +1,12 @@
-# React + Vite
+# WeCare
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This is a simple project that has been made for completely learning purpose. This is part React Course of Infosys Springboard.
 
-Currently, two official plugins are available:
+##Project Description
+WeCare is an online Life Coaching application that helps its users to sign up and log in to seek the guidance of famous Life Coaches. Users can search for a Life Coach based on specialty and can book an appointment within seven days. They can also see upcoming appointments and can reschedule or cancel the appointments. Similarly, Life Coaches can also sign up and login to see their upcoming schedule. 
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+#Tools Used
+The tools used in this porject are:
+  1. React+Vite
+  2. NodeJs
+  3. Visual Studio IDE
