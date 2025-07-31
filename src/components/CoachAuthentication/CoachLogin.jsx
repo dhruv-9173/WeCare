@@ -2,6 +2,7 @@ import {Button} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 import coach from "../../assets/coach.png"
 import useLogin from "../../hooks/useLogin"
+import Loader from '../loader';
 function CoachLogin()
 {
     const {login,errors,loader} = useLogin();
@@ -64,7 +65,7 @@ function CoachLogin()
                         />
                 </div>
                 {errors}
-                {!loader && <Button type='submit'>Login</Button>}
+                {!loader ? <Button type='submit'>Login</Button>:<Loader/>}
             </form>
             
         </div>

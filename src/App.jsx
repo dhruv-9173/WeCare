@@ -7,7 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Header from './components/header';
 import Footer from './components/footer';
 import UserSignUp from './components/UserAuthentication/UserSignUp';
-import UserLogin from './components/UserLogin';
+import UserLogin from './components/UserAuthentication/UserLogin';
 function App() {
   const {isAuthenticated} = useAuthContext();
   return (

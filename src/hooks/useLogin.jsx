@@ -11,24 +11,29 @@ function useLogin()
     const login = (LoginRequest)=>{
         setLoader(true);
         try{
+           
             const user = authenticate(LoginRequest);
+            
             if(user)
             {
-                updateAuth(true);
-                AddUser(user);
+               updateAuth(true);
+               AddUser(user);
                navigate('/dashboard');
             }
             else {
                 setError("Invalid CoachId or Password");
             }
+            setLoader(false);
+      
         }
         catch(error)
         {
             
             console.log(error);
             setError("Error Logging in");
+            setLoader(false);
         }
-        setLoader(false);
+        
         
     }
     return {login , errors, loader};

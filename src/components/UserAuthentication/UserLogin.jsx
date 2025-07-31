@@ -1,12 +1,14 @@
 import {Button} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 import user from "../../assets/user.png"
-import useLogin from "../hooks/useLogin"
+import useLogin from "../../hooks/useLogin"
+import Loader from '../loader';
 function UserLogin()
 {
     const {login,errors,loader} = useLogin();
     const handleSubmit = (e)=>
     {
+        
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         const LoginRequest={
@@ -15,7 +17,10 @@ function UserLogin()
             "role":"user"
         };
         console.log(LoginRequest);
+        
         login(LoginRequest);
+        
+    
     }
     return (
 
@@ -64,7 +69,7 @@ function UserLogin()
                         />
                 </div>
                 {errors}
-                {!loader && <Button type='submit'>Login</Button>}
+                {!loader ? (<Button type='submit'>Login</Button>):<Loader/>}
             </form>
             
         </div>
