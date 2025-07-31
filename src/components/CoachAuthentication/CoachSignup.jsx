@@ -1,4 +1,4 @@
-import coach from '../assets/coach.png'
+import coach from '../../assets/coach.png'
 import {useFormik} from 'formik'
 import CoachSignupValidationSchema from '../../Validation/CoachSignupValidationSchema';
 import {Button} from 'react-bootstrap'

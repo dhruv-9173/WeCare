@@ -1,6 +1,6 @@
-import CoachSignup from './components/CoachSignup';
+import CoachSignup from './components/CoachAuthentication/CoachSignup';
 import Home from './pages/Home'
-import CoachLogin from './components/CoachLogin';
+import CoachLogin from './components/CoachAuthentication/CoachLogin';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import useAuthContext from './hooks/useAuthContext';
 import Dashboard from './pages/Dashboard';

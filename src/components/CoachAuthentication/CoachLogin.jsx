@@ -1,6 +1,6 @@
 import {Button} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
-import coach from "../assets/coach.png"
+import coach from "../../assets/coach.png"
 import useLogin from "../../hooks/useLogin"
 function CoachLogin()
 {
