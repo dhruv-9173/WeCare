@@ -1,6 +1,6 @@
 import coach from '../assets/coach.png'
 import {useFormik} from 'formik'
-import CoachSignupValidationSchema from '../Validation/CoachSignupValidationSchema';
+import CoachSignupValidationSchema from '../../Validation/CoachSignupValidationSchema';
 import {Button} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 function CoachSignup()
