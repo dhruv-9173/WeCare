@@ -48,8 +48,8 @@ function Home()
             </div>
             <div style={cardStyle}>
                 <img style={imageStyle} src={user} alt="user.img" />
-                <Button onClick={()=>{useNavigate('/usersignup')}}>Login As User</Button>
-                <Button onClick={()=>{}}>Join As User</Button>
+                <Button onClick={()=>{navigate('/usersignup')}}>Login As User</Button>
+                <Button onClick={()=>{navigate('/userlogin')}}>Join As User</Button>
             </div>
         </div>
         </>

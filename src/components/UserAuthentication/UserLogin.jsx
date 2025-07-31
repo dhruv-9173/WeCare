@@ -1,8 +1,8 @@
 import {Button} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
-import coach from "../../assets/coach.png"
-import useLogin from "../../hooks/useLogin"
-function CoachLogin()
+import user from "../../assets/user.png"
+import useLogin from "../hooks/useLogin"
+function UserLogin()
 {
     const {login,errors,loader} = useLogin();
     const handleSubmit = (e)=>
@@ -12,7 +12,7 @@ function CoachLogin()
         const LoginRequest={
             "id":data.get("coachid"),
             "password":data.get("password"),
-            "role":"coach"
+            "role":"user"
         };
         console.log(LoginRequest);
         login(LoginRequest);
@@ -31,8 +31,8 @@ function CoachLogin()
             }
         }>
             <center>
-                <img src={coach} alt="Coach" width={100} />
-                <h2>Login As Life Coach</h2>
+                <img src={user} alt="Coach" width={100} />
+                <h2>Login As User</h2>
             </center>
 
             <form onSubmit={handleSubmit} method='post' style={
@@ -71,4 +71,4 @@ function CoachLogin()
         </>
     );
 }
-export default CoachLogin;
+export default UserLogin;

@@ -7,6 +7,7 @@ import Dashboard from './pages/Dashboard';
 import Header from './components/header';
 import Footer from './components/footer';
 import UserSignUp from './components/UserAuthentication/UserSignUp';
+import UserLogin from './components/UserLogin';
 function App() {
   const {isAuthenticated} = useAuthContext();
   return (
@@ -20,6 +21,7 @@ function App() {
           <Route path="/coachsignup" element={<CoachSignup/>}/>
           <Route path='/dashboard'element={<Dashboard/>} />
           <Route path='/usersignup' element={<UserSignUp/>}/>
+          <Route path='/userlogin' element={<UserLogin/>}/>
         </Routes>
         
         <Footer/>
