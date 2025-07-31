@@ -11,9 +11,7 @@ function useLogin()
     const login = (LoginRequest)=>{
         setLoader(true);
         try{
-           
             const user = authenticate(LoginRequest);
-            
             if(user)
             {
                updateAuth(true);

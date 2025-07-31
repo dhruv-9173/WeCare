@@ -1,4 +1,4 @@
-function    Loader()
+function Loader()
 {
 
     return (
