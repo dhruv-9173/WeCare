@@ -1,13 +1,13 @@
-import CoachSignup from './components/CoachAuthentication/CoachSignup';
+import CoachSignup from './pages/Signup/CoachSignup';
 import Home from './pages/Home'
-import CoachLogin from './components/CoachAuthentication/CoachLogin';
+import CoachLogin from './pages/login/CoachLogin';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import useAuthContext from './hooks/useAuthContext';
-import Dashboard from './pages/Dashboard';
+import Dashboard from './pages/Dashboard/Dashboard';
 import Header from './components/header';
 import Footer from './components/footer';
-import UserSignUp from './components/UserAuthentication/UserSignUp';
-import UserLogin from './components/UserAuthentication/UserLogin';
+import UserSignUp from './pages/Signup/UserSignUp';
+import UserLogin from './pages/login/UserLogin';
 function App() {
   const {isAuthenticated} = useAuthContext();
   return (

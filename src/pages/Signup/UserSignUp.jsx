@@ -4,9 +4,14 @@ import {Country,State,City} from 'country-state-city'
 import { useState,useEffect } from 'react';
 import {Button} from 'react-bootstrap'
 import UserRegisterValidationSchema from "../../Validation/UserRegisterValidationSchema"
+import useLogout from '../../hooks/useLogout';
 function UserSignUp()
 {
-    
+    const logout = useLogout();
+    useEffect(
+        ()=>{
+            logout();
+        },[]);
     const formik = useFormik({
         initialValues: {
             name : "",

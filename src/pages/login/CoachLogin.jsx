@@ -1,26 +1,29 @@
+import {useEffect} from 'react'
 import {Button} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
-import user from "../../assets/user.png"
+import coach from "../../assets/coach.png"
 import useLogin from "../../hooks/useLogin"
-import Loader from '../loader';
-function UserLogin()
+import Loader from '../../components/loader';
+import useLogout from '../../hooks/useLogout';
+function CoachLogin()
 {
+    const logout = useLogout();
+    useEffect(
+        ()=>{
+            logout();
+        },[]);
     const {login,errors,loader} = useLogin();
     const handleSubmit = (e)=>
     {
-        
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         const LoginRequest={
             "id":data.get("coachid"),
             "password":data.get("password"),
-            "role":"user"
+            "role":"coach"
         };
         console.log(LoginRequest);
-        
         login(LoginRequest);
-        
-    
     }
     return (
 
@@ -36,8 +39,8 @@ function UserLogin()
             }
         }>
             <center>
-                <img src={user} alt="Coach" width={100} />
-                <h2>Login As User</h2>
+                <img src={coach} alt="Coach" width={100} />
+                <h2>Login As Life Coach</h2>
             </center>
 
             <form onSubmit={handleSubmit} method='post' style={
@@ -69,11 +72,11 @@ function UserLogin()
                         />
                 </div>
                 {errors}
-                {!loader ? (<Button type='submit'>Login</Button>):<Loader/>}
+                {!loader ? <Button type='submit'>Login</Button>:<Loader/>}
             </form>
             
         </div>
         </>
     );
 }
-export default UserLogin;
+export default CoachLogin;
