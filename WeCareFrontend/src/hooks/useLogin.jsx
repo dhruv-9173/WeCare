@@ -15,7 +15,7 @@ function useLogin()
             if(user)
             {
                updateAuth(true);
-               AddUser(user);
+               localStorage.setItem("user",JSON.stringify(user));
                navigate('/dashboard');
             }
             else {
