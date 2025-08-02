@@ -14,7 +14,7 @@ function UserLogin()
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         const LoginRequest={
-            "id":data.get("coachid"),
+            "id":Number(data.get("userid")),
             "password":data.get("password"),
             "role":"user"
         };
