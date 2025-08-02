@@ -2,6 +2,7 @@ package wecare.wecare.Entity;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -12,12 +13,11 @@ import java.util.Date;
 @NoArgsConstructor
 @Data
 @Table(name = "users")
-public class user {
+@Builder
+public class userInfo {
 
     @Id
     private int userid;
-    @Column
-    private String password;
     @Column
     private String name;
     @Column

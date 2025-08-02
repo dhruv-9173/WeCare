@@ -11,10 +11,9 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class userDTO {
+public class userInfoDTO {
 
     private int userid;
-    private String password;
     private String name;
     private String email;
     private String mobilenumber;

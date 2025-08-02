@@ -1,21 +1,19 @@
 package wecare.wecare.DTO;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Date;
 
-@Getter
-@Setter
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
-public class coachDTO {
+public class coachInfoDTO {
 
     private int coachid;
 
     private String name;
-
-    private String password;
 
     private Date dob;
 

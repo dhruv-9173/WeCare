@@ -1,8 +1,9 @@
-package repo;
+package wecare.wecare.repo;
 
-import Entity.user;
+import wecare.wecare.Entity.userInfo;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepo extends JpaRepository<user,String> {
+public interface UserRepo extends JpaRepository<userInfo, Integer> {
 
+    userInfo getByuserid(int userid);
 }
