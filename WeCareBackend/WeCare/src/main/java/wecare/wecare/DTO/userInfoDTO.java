@@ -1,0 +1,28 @@
+package wecare.wecare.DTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.Date;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+public class userDTO {
+
+    private int userid;
+    private String password;
+    private String name;
+    private String email;
+    private String mobilenumber;
+    private Date dob;
+    private String gender;
+    private String country;
+    private String city;
+    private String state;
+    private String pincode;
+
+}
