@@ -8,13 +8,15 @@ function useLogin()
     const [loader,setLoader]=useState(false);
     const {updateAuth, AddUser} = useAuthContext();
     const navigate = useNavigate();
-    const login = (LoginRequest)=>{
+    const login =async (LoginRequest)=>{
         setLoader(true);
         try{
-            const user = authenticate(LoginRequest);
+            const user =  await authenticate(LoginRequest);
             if(user)
             {
+               console.log(user);
                updateAuth(true);
+               AddUser(user);
                localStorage.setItem("user",JSON.stringify(user));
                navigate('/dashboard');
             }

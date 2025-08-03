@@ -5,6 +5,7 @@ import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -19,7 +20,7 @@ public class CoachRegisterRequest {
     private String password;
 
     @NotNull(message = "Date of birth is required")
-    private Date dob;
+    private LocalDate dob;
 
     @NotNull(message = "Mobile number is required")
     private String mobilenumber;

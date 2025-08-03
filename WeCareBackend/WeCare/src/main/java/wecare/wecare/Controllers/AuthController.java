@@ -24,6 +24,7 @@ import wecare.wecare.utils.JwtTokenUtil;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
+@CrossOrigin(origins = "http://localhost:5173")
 public class AuthController {
 
     @Autowired

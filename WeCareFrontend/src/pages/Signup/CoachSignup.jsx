@@ -5,6 +5,7 @@ import {useFormik} from 'formik'
 import CoachSignupValidationSchema from '../../Validation/CoachSignupValidationSchema';
 import {Button} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
+import {registerCoach} from '../../services/AuthService';
 function CoachSignup()
 {
      const logout = useLogout();
@@ -24,7 +25,7 @@ function CoachSignup()
             },
             validationSchema: CoachSignupValidationSchema,
             onSubmit: values=>{
-                console.log(values);
+                registerCoach(values);
             },
         }
     );

@@ -1,10 +1,35 @@
-import axios from "axios"
+import axios from "axios";
 
 const apiClient = axios.create({
-    baseURL:'http://localhost:8080',
-})
+  baseURL: "http://localhost:8080", 
+});
+
+
 apiClient.interceptors.request.use(
-    config=>{
-        
+  (config) => {
+    const user = localStorage.getItem("user"); 
+    const token = user?.token;
+
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`; 
     }
-)
+
+    return config;
+  },
+  (error) => Promise.reject(error)
+);
+
+
+apiClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    
+    if (error.response && error.response.status === 401) {
+      console.warn("Unauthorized. Redirecting to login...");
+      
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default apiClient;
