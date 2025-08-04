@@ -61,7 +61,7 @@ public class AuthController {
     }
 
     @PostMapping("/registerUser")
-    public ResponseEntity<String> getUserRegisterRequest(@RequestBody UserRegisterRequest request) {
+    public ResponseEntity<Integer> getUserRegisterRequest(@RequestBody UserRegisterRequest request) {
         log.info("Got UserRegisterRequest {}", request);
 
 
@@ -87,17 +87,17 @@ public class AuthController {
                     .pincode(request.getPincode())
                     .build();
             if(registerService.registerUserInfo(userdto))
-                return ResponseEntity.status(HttpStatus.ACCEPTED).body("User Registered Successfully");
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(response.getUserid());
             else throw new Exception("User Registration Failed");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error occurred while Registering User: " + e.getMessage());
+                    .body(null);
         }
     }
 
     @PostMapping("/registerCoach")
-    public ResponseEntity<String> getCoachRegisterRequest(@RequestBody CoachRegisterRequest request) {
+    public ResponseEntity<Integer> getCoachRegisterRequest(@RequestBody CoachRegisterRequest request) {
 
 
 
@@ -115,12 +115,12 @@ public class AuthController {
                     .mobilenumber(request.getMobilenumber())
                     .build();
             if(registerService.registerCoachInfo(coachdto))
-                return ResponseEntity.status(HttpStatus.ACCEPTED).body("Coach Registered Successfully");
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(response.getUserid());
             else throw new Exception("Coach Registration Failed");
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("Error occurred while Registering Coach: " + e.getMessage());
+                    .body(null);
         }
     }
 

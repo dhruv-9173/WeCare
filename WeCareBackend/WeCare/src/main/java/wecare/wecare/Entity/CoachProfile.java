@@ -40,4 +40,7 @@ public class CoachProfile {
 
     @Column
     private double rating;
+
+    @Column
+    private int totalappointments;
 }

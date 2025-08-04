@@ -1,20 +1,15 @@
 package wecare.wecare.services.impl;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wecare.wecare.DTO.CoachProfileDTO;
-import wecare.wecare.DTO.appointmentDTO;
+import wecare.wecare.DTO.userInfoDTO;
 import wecare.wecare.Entity.CoachProfile;
-import wecare.wecare.Entity.appointment;
-import wecare.wecare.repo.AppointmentsRepo;
+import wecare.wecare.io.UserInfoResponse;
 import wecare.wecare.repo.CoachProfileRepo;
+import wecare.wecare.repo.UserRepo;
 import wecare.wecare.services.CoachService;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.List;
 
 @Service
 public class CoachServiceImpl implements CoachService {
@@ -23,7 +18,7 @@ public class CoachServiceImpl implements CoachService {
     private CoachProfileRepo repo1;
     private final ModelMapper mapper = new ModelMapper();
     @Autowired
-    private AppointmentsRepo repo2;
+    private UserRepo repo2;
 
     @Override
     public CoachProfileDTO getCoachProfile(int userid) {
@@ -53,20 +48,13 @@ public class CoachServiceImpl implements CoachService {
     }
 
     @Override
-    public List<appointmentDTO> getAppointments(int userid) {
-        try{
-
-            List<appointment> result = repo2.findAllById(Collections.singleton(userid));
-            List<appointmentDTO> appointmentDTOs = new ArrayList<>();
-            mapper.map(result,appointmentDTOs);
-            if(result != null){
-                return appointmentDTOs;
-            }
-            else return null;
-        }
-        catch(Exception e) {
-            return null;
-        }
+    public UserInfoResponse getUserNameAndMobileNumber(int userid) {
+        userInfoDTO userdto=repo2.getNameAndMobileNumberAndUseridByUserid(userid);
+        return new UserInfoResponse().builder()
+                .userid(userdto.getUserid())
+                .mobileNumber(userdto.getMobilenumber())
+                .name(userdto.getName())
+                .build();
     }
 
 

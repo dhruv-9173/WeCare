@@ -20,6 +20,6 @@ public class updateCoachProfileRequest {
     private LocalTime start;
     private LocalTime end;
     private String Address;
-    private String sessiontime;
+
 
 }

@@ -10,8 +10,12 @@ import java.util.List;
 
 public interface AppointmentsRepo extends JpaRepository<appointment,Integer> {
 
-    List<appointment> getByDateAndCoachid(Date date, int coachid);
+    List<appointment> getByDateAndCoachid(LocalDate date, int coachid);
 
 
     boolean existsByCoachidAndDateAndStarthrAndEndhr(int coachid, LocalDate date, LocalTime starthr, LocalTime endhr);
+
+    List<appointment> findAllByCoachid(int userid);
+
+    List<appointment> findAllByUserid(int userid);
 }

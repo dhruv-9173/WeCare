@@ -1,17 +1,16 @@
 package wecare.wecare.Controllers;
-
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import wecare.wecare.DTO.CoachProfileDTO;
+import wecare.wecare.DTO.CommentDTO;
 import wecare.wecare.DTO.appointmentDTO;
 import wecare.wecare.Entity.Comment;
 import wecare.wecare.io.AppointmentRequest;
-import wecare.wecare.io.cancelAppointments;
+import wecare.wecare.services.AppointmentService;
 import wecare.wecare.services.UserService;
-
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
@@ -24,6 +23,8 @@ public class UserController {
 
     @Autowired
     private UserService userService;
+    @Autowired
+    private AppointmentService appointmentService;
     private final ModelMapper mapper = new ModelMapper();
 
     @GetMapping("/loadcoaches")
@@ -49,7 +50,7 @@ public class UserController {
 
             LocalDate date = LocalDate.parse(date_string);
 
-            List<ArrayList<LocalTime>> results = userService.getTimeSlots(date, coachid);
+            List<ArrayList<LocalTime>> results = appointmentService.getTimeSlots(date, coachid);
 
             if (results != null && !results.isEmpty()) {
                 return ResponseEntity.ok(results);
@@ -70,13 +71,14 @@ public class UserController {
     public ResponseEntity<Boolean>handlefixappointment(@RequestBody AppointmentRequest req)
     {
         try{
-            if(req.getDate().isBefore(LocalDate.now()) || req.getStarthr().isBefore(LocalTime.now()) || req.getStarthr().isAfter(LocalTime.now()))
+            if(req.getDate().isBefore(LocalDate.now()) || ( req.getDate().isEqual(LocalDate.now()) && (req.getStarthr().isBefore(LocalTime.now()) || req.getStarthr().isAfter(LocalTime.now()))))
             {
                 return ResponseEntity.badRequest().body(false);
             }
+
             appointmentDTO dto =  new appointmentDTO();
             mapper.map(req,dto);
-            if(userService.fixappointment(dto))
+            if(appointmentService.fixappointment(dto))
                 return ResponseEntity.ok(true);
             else
                 return ResponseEntity.ok(false);
@@ -90,31 +92,51 @@ public class UserController {
     @PutMapping("/addcomment")
     public ResponseEntity<Boolean>handleaddcomment(@RequestBody Comment req)
     {
-        return null;
+        try{
+            CommentDTO commentDTO = new CommentDTO();
+            mapper.map(req,commentDTO);
+            if(userService.addComments(commentDTO))
+            {
+                return ResponseEntity.ok(true);
+            }
+            else return  ResponseEntity.badRequest().body(false);
+        }
+        catch(Exception e){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
-    @PostMapping
-    public ResponseEntity<Boolean>handeladdrating(@RequestBody double rating)
+    @PutMapping("/putRating")
+    public ResponseEntity<Boolean>handeladdrating(@RequestParam int rating,@RequestParam int coachid)
     {
-        return null;
+        try {
+            if(userService.addRatings(rating,coachid))
+            {
+                return ResponseEntity.ok(true);
+            }
+            else return ResponseEntity.badRequest().body(false);
+        }
+        catch(Exception e){
+
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+        }
+
     }
 
     @GetMapping("/getComments")
-    public ResponseEntity<Collection<Comment>>handlegetComments(@RequestParam Integer coachid)
+    public ResponseEntity<List<CommentDTO>>handlegetComments(@RequestParam int coachid)
     {
-        return null;
+       try{
+           List<CommentDTO>list = userService.getAllComments(coachid);
+           return ResponseEntity.ok(list);
+       }
+       catch(Exception e){
+           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+       }
     }
 
-    @GetMapping("/getrating")
-    public ResponseEntity<Double>handlegetrating()
-    {
-        return null;
-    }
 
-    @PutMapping("/cancelAppointments")
-    public ResponseEntity<appointmentDTO>handlecancelAppointments(@RequestBody cancelAppointments request) {
-        return ResponseEntity.ofNullable(null);
-    }
 
 
 

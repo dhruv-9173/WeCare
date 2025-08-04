@@ -21,4 +21,5 @@ public class CoachProfileDTO {
     private LocalTime end;
     private String address;
     private double rating;
+    private int totalAppointments;
 }

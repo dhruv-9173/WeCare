@@ -1,4 +1,4 @@
-package wecare.wecare.DTO;
+package wecare.wecare.io;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,8 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class CommentDTO {
-    private String comment;
+public class UserInfoResponse {
+
     private int userid;
-    private int coachid;
+    private String name;
+    private String mobileNumber;
 }

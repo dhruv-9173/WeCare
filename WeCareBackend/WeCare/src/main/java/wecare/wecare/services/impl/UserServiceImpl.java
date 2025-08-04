@@ -5,20 +5,14 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import wecare.wecare.DTO.CoachProfileDTO;
-import wecare.wecare.DTO.appointmentDTO;
+import wecare.wecare.DTO.CommentDTO;
 import wecare.wecare.Entity.CoachProfile;
-import wecare.wecare.Entity.appointment;
-import wecare.wecare.repo.AppointmentsRepo;
+import wecare.wecare.Entity.Comment;
 import wecare.wecare.repo.CoachProfileRepo;
+import wecare.wecare.repo.CommentRepo;
 import wecare.wecare.services.UserService;
-
-import java.sql.Date;
-import java.sql.Time;
-import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.*;
 
-@Slf4j
 @Service
 public class UserServiceImpl implements UserService {
 
@@ -26,43 +20,15 @@ public class UserServiceImpl implements UserService {
     @Autowired
     private CoachProfileRepo repo1;
     @Autowired
-    private AppointmentsRepo repo2;
+    private CommentRepo repo2;
 
-    public List<ArrayList<LocalTime>> findAllSlots(
-            Map<List<LocalTime>, Boolean> filledSlots,
-            LocalTime start,
-            LocalTime end,
-            int duration) {
-
-        List<ArrayList<LocalTime>> slots = new ArrayList<>();
-        LocalTime a = start;
-        LocalTime b = a.plusMinutes(duration);
-
-        while (!b.isAfter(end)) {
-            List<LocalTime> currentSlot = List.of(a, b);
-
-            if (!filledSlots.containsKey(currentSlot)) {
-                ArrayList<LocalTime> availableSlot = new ArrayList<>();
-                availableSlot.add(a);
-                availableSlot.add(b);
-                slots.add(availableSlot);
-            }
-
-            a = a.plusMinutes(duration);
-            b = b.plusMinutes(duration);
-        }
-
-        return slots;
-    }
 
 
     @Override
     public List<CoachProfileDTO> getAllCoaches() {
-
-
         List<CoachProfile> results = repo1.findAll();
-        if(results!=null && results.isEmpty()==false){
-            List<CoachProfileDTO> coaches =  new ArrayList<CoachProfileDTO>();
+        if(!results.isEmpty()){
+            List<CoachProfileDTO> coaches =  new ArrayList<>();
             for (CoachProfile coach : results) {
                 coaches.add(modelMapper.map(coach, CoachProfileDTO.class));
             }
@@ -74,46 +40,47 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<ArrayList<LocalTime>> getTimeSlots(LocalDate date, int coachid) {
-        Date date1 = java.sql.Date.valueOf(date);
-
-        List<appointment> appointments= repo2.getByDateAndCoachid(date1,coachid);
-        CoachProfile profile = repo1.getByUserid(coachid);
-        LocalTime start = profile.getStart();
-        LocalTime end = profile.getEnd();
-        int duration = 30;
-        Map<List<LocalTime>,Boolean> filledslots = new HashMap<>();
-        List<ArrayList<LocalTime>> results = new ArrayList<>();
-        for(appointment a:appointments)
-        {
-            ArrayList<LocalTime>x;
-            if(a.getStatus()==0) {
-                x = new ArrayList<>();
-                x.add(a.getStarthr());
-                x.add(a.getEndhr());
-                filledslots.put(x, true);
-            }
+    public Boolean addComments(CommentDTO comment) {
+        try {
+            Comment req = modelMapper.map(comment, Comment.class);
+            repo2.save(req);
+            return true;
         }
-        results = findAllSlots(filledslots, start, end, duration);
-        return results;
+        catch (Exception e){
+            e.printStackTrace();
+            return false;
+        }
 
     }
 
     @Override
-    public Boolean fixappointment(appointmentDTO appointment) {
-        appointment app=new appointment();
-        if(repo2.existsByCoachidAndDateAndStarthrAndEndhr(appointment.getCoachid(),appointment.getDate(),appointment.getStarthr(),appointment.getEndhr()))
-        {
-            return false;
-        }
-        modelMapper.map(appointment,app);
-        try {
-            repo2.save(app);
+    public Boolean addRatings(int rating, int coachid) {
+        try{
+            CoachProfile profile = repo1.getGetByUserid(coachid);
+            double userRating =  profile.getRating();
+            int n = profile.getTotalappointments();
+            userRating = ((userRating + rating)/n)*500;
+            repo1.save(profile);
             return true;
         }
-        catch (Exception e) {
+        catch (Exception e){
+            e.printStackTrace();
             return false;
         }
-
     }
+
+    @Override
+    public List<CommentDTO> getAllComments(int coachid) {
+        List<Comment> results = repo2.findAllByCoachid(coachid);
+        if(!results.isEmpty()){
+            List<CommentDTO> comments =  new ArrayList<>();
+            for (Comment comment : results) {
+                comments.add(modelMapper.map(comment, CommentDTO.class));
+            }
+            return comments;
+        }
+        return null;
+    }
+
+
 }
