@@ -14,9 +14,13 @@ function UserLogin()
         e.preventDefault();
         const data = new FormData(e.currentTarget);
         const LoginRequest={
+<<<<<<< HEAD
             "id":Number(data.get("userid")),
+=======
+            "userid":Number(data.get("userid")),
+>>>>>>> main
             "password":data.get("password"),
-            "role":"user"
+            "role":"USER"
         };
         console.log(LoginRequest);
         
@@ -60,7 +64,7 @@ function UserLogin()
                         type="text" 
                         className="form-control" 
                         id="Coach Id" 
-                        name='coachid'
+                        name='userid'
                         required
                         placeholder="Enter Coach Id"
                         />

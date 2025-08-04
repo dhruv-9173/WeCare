@@ -9,6 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -23,7 +24,7 @@ public class coachInfo {
     @Column
     private String name;
     @Column
-    private Date dob;
+    private LocalDate dob;
     @Column
     private String mobilenumber;
     @Column

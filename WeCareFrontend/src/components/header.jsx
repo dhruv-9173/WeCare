@@ -51,8 +51,8 @@ function Header() {
                     }}
                 >
                 {isAuthenticated && <li style={listItemStyle}>View Profile</li>}
-                {isAuthenticated && user.role === "user" &&   <li style={listItemStyle}>My Schedule</li>}
-                {isAuthenticated && user.role === "coach" &&    <li style={listItemStyle}>My Appointments</li>}
+                {isAuthenticated && user.role === "USER" &&   <li style={listItemStyle}>My Schedule</li>}
+                {isAuthenticated && user.role === "COACH" &&    <li style={listItemStyle}>My Appointments</li>}
                 <li style={listItemStyle}>Contact Us: 080 22334477</li>
                 {isAuthenticated && <li style={listItemStyle}>Log Out</li>}
                 </ul>

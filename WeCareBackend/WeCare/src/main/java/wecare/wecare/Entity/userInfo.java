@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -25,7 +26,7 @@ public class userInfo {
     @Column
     private String mobilenumber;
     @Column
-    private Date dob;
+    private LocalDate dob;
     @Column
     private String gender;
     @Column

@@ -2,6 +2,7 @@ package wecare.wecare.DTO;
 
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 
@@ -15,7 +16,7 @@ public class coachInfoDTO {
 
     private String name;
 
-    private Date dob;
+    private LocalDate dob;
 
     private String mobilenumber;
 

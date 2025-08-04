@@ -5,6 +5,7 @@ import { useState,useEffect } from 'react';
 import {Button} from 'react-bootstrap'
 import UserRegisterValidationSchema from "../../Validation/UserRegisterValidationSchema"
 import useLogout from '../../hooks/useLogout';
+import { registerCoach } from '../../services/AuthService';
 function UserSignUp()
 {
     const logout = useLogout();
@@ -27,7 +28,7 @@ function UserSignUp()
         },
         validationSchema:UserRegisterValidationSchema,
         onSubmit:values=>{
-            console.log(values);
+            console.log(registerCoach(values));
         },
     });
     const countries = Country.getAllCountries();

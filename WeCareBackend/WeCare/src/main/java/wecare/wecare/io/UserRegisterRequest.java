@@ -4,6 +4,7 @@ package wecare.wecare.io;
 import jakarta.validation.constraints.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
@@ -26,7 +27,7 @@ public class UserRegisterRequest {
         private String mobilenumber;
 
         @Pattern(regexp = "^\\d{4}-\\d{2}-\\d{2}$", message = "Date of birth must be in the format YYYY-MM-DD")
-        private Date dob;
+        private LocalDate dob;
 
         @Pattern(regexp = "^(Male|Female)$", message = "Gender must be Male, Female, or Other")
         private String gender;

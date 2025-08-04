@@ -81,7 +81,7 @@ function UserDashboard()
     />
 </div>
 
-        <center><h1 style={{color:"blue",fontFamily:"cursive",fontWeight:"bold"}}>Welcome {user.name}</h1></center>
+        <center><h1 style={{color:"blue",fontFamily:"cursive",fontWeight:"bold"}}>Welcome {user.userid}</h1></center>
         </div>
         <hr />
         
