@@ -18,17 +18,14 @@ function UserLogin()
             "password":data.get("password"),
             "role":"USER"
         };
-        console.log(LoginRequest);
+        
         
         login(LoginRequest);
+
         
     
     }
-    const logout = useLogout();
-    useEffect(
-        ()=>{
-            logout();
-        },[]);
+    
     return (
 
         <>
@@ -43,7 +40,7 @@ function UserLogin()
             }
         }>
             <center>
-                <img src={user} alt="Coach" width={100} />
+                <img src={user} alt="userimg" width={100} />
                 <h2>Login As User</h2>
             </center>
 
@@ -59,10 +56,9 @@ function UserLogin()
                     <input 
                         type="text" 
                         className="form-control" 
-                        id="Coach Id" 
                         name='userid'
                         required
-                        placeholder="Enter Coach Id"
+                        placeholder="Enter User Id"
                         />
                 </div>
 
@@ -75,7 +71,7 @@ function UserLogin()
                             placeholder="Enter Password"
                         />
                 </div>
-                {errors}
+                <i style={{color:"red"}}>{errors}</i>
                 {!loader ? (<Button type='submit'>Login</Button>):<Loader/>}
             </form>
             

@@ -21,7 +21,16 @@ public class CoachProfile {
     private int userid;
 
     @Column
+    private String name;
+
+    @Column
+    private String mobilenumber;
+
+    @Column
     private byte[] image;
+
+    @Column
+    private String speciality;
 
     @Column
     private String description;

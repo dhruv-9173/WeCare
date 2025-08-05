@@ -7,8 +7,8 @@ const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   (config) => {
-    const user = localStorage.getItem("user"); 
-    const token = user?.token;
+    
+    const token = localStorage.getItem("token");
 
     if (token) {
       config.headers.Authorization = `Bearer ${token}`; 
@@ -26,7 +26,7 @@ apiClient.interceptors.response.use(
     
     if (error.response && error.response.status === 401) {
       console.warn("Unauthorized. Redirecting to login...");
-      
+      console.log("Bad Request");
     }
     return Promise.reject(error);
   }

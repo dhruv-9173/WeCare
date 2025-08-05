@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState,useEffect } from 'react';
 import useLogout from '../../hooks/useLogout';
 import coach from '../../assets/coach.png'
 import {useFormik} from 'formik'
@@ -6,13 +6,17 @@ import CoachSignupValidationSchema from '../../Validation/CoachSignupValidationS
 import {Button} from 'react-bootstrap'
 import "bootstrap/dist/css/bootstrap.min.css";
 import {registerCoach} from '../../services/AuthService';
+import { useNavigate } from 'react-router-dom';
+import ConfirmDialog from '../../components/confirmdialog';
+import Loader from '../../components/loader';
+
 function CoachSignup()
 {
-     const logout = useLogout();
-    useEffect(
-        ()=>{
-            logout();
-        },[]);
+    const [loader, setLoader] = useState(false);
+    const [confirm, setShowConfirm] = useState(false);
+    const navigate = useNavigate();
+    const [userid, setuserid] = useState(null);
+    const [error , seterror] = useState("");
     const formik = useFormik(
         {
             initialValues:{
@@ -20,12 +24,24 @@ function CoachSignup()
                 password: '',
                 dob: '',
                 gender: '',
-                MobileNumber: '',
+                mobilenumber: '',
                 speciality: ''
             },
             validationSchema: CoachSignupValidationSchema,
             onSubmit: values=>{
-                registerCoach(values);
+                setLoader(true);
+                registerCoach(values)
+                .then((response) => {
+                    setLoader(false);
+                    setShowConfirm(true);
+                    setuserid(response.data);
+                    
+                    })
+                .catch(()=>{
+                    setLoader(false);
+                    seterror("Failed to register");
+                })
+                
             },
         }
     );
@@ -33,6 +49,13 @@ function CoachSignup()
     
     return (
         <>
+        {confirm && <ConfirmDialog 
+                    show = {"Hello"+formik.values.name}
+                    heading = {"Your UserId:" + userid}
+                    message = {"Please remember this to login"}
+                    onConfirm = {()=>{navigate("/coachlogin")}}
+                    onCancel = {()=>{setShowConfirm(false)}}
+                    />}
         <div className='container' style={
             {
                 display: 'flex',
@@ -51,7 +74,7 @@ function CoachSignup()
             <center><img src={coach} alt="coach-icon" style={{width:"100px"}} />
             <h2>Life Coach Profile</h2></center>
 
-            <form onSubmit={formik.handleSubmit} style={{
+            <form id='myform' onSubmit={formik.handleSubmit} style={{
                 display:"flex",
                 gap:"20px",
                 alignItems:"center",
@@ -93,7 +116,7 @@ function CoachSignup()
                 <input 
                     type="text" 
                     className='form-control'
-                    name='MobileNumber' 
+                    name='mobilenumber' 
                     placeholder='Mobile Number' 
                     value={formik.values.MobileNumber}
                     onChange={formik.handleChange}
@@ -151,7 +174,8 @@ function CoachSignup()
                 </div>
                 
             </form>
-            <Button>Submit</Button>
+            {<i style = {{color : "red"}}>{error}</i>}
+            {!loader ? (<Button form="myform" type="submit">Register</Button> ): <Loader/>}
         </div>
         </>
 

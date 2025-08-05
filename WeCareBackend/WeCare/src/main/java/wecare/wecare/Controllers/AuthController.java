@@ -8,6 +8,7 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import wecare.wecare.DTO.CoachProfileDTO;
 import wecare.wecare.DTO.UsersDTO;
 import wecare.wecare.DTO.coachInfoDTO;
 import wecare.wecare.DTO.userInfoDTO;
@@ -16,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import wecare.wecare.repo.CoachProfileRepo;
+import wecare.wecare.services.CoachService;
 import wecare.wecare.services.MyUserDetailsService;
 import wecare.wecare.services.RegisterService;
 import wecare.wecare.services.TokenBlackListService;
@@ -24,11 +27,13 @@ import wecare.wecare.utils.JwtTokenUtil;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@CrossOrigin(origins = "http://localhost:5173")
+
 public class AuthController {
 
     @Autowired
     private RegisterService registerService;
+    @Autowired
+    private CoachService  coachService;
     private final AuthenticationManager authenticationManager;
     private final JwtTokenUtil jwtTokenUtil;
     private final MyUserDetailsService userDetailsService;
@@ -49,16 +54,12 @@ public class AuthController {
             return null;
         }
     }
-    @GetMapping("/user/healthcheck")
-    public ResponseEntity<String> healthcheck1() {
+    @GetMapping("/healthcheck")
+    public ResponseEntity<Boolean> healthcheck1() {
 
-        return new ResponseEntity<String>("Hey there! I am fine1", HttpStatus.OK);
+        return new ResponseEntity<Boolean>(true, HttpStatus.OK);
     }
-    @GetMapping("/coach/healthcheck")
-    public ResponseEntity<String> healthcheck2() {
 
-        return new ResponseEntity<String>("Hey there! I am fine2", HttpStatus.OK);
-    }
 
     @PostMapping("/registerUser")
     public ResponseEntity<Integer> getUserRegisterRequest(@RequestBody UserRegisterRequest request) {
@@ -114,8 +115,17 @@ public class AuthController {
                     .gender(request.getGender())
                     .mobilenumber(request.getMobilenumber())
                     .build();
-            if(registerService.registerCoachInfo(coachdto))
+            CoachProfileDTO coachProfileDTO = new CoachProfileDTO().builder()
+                    .userid(response.getUserid())
+                    .name(request.getName())
+                    .mobilenumber(request.getMobilenumber())
+                    .speciality(request.getSpeciality())
+                    .build();
+
+            if(registerService.registerCoachInfo(coachdto)) {
+                coachService.updateCoachProfile(coachProfileDTO);
                 return ResponseEntity.status(HttpStatus.ACCEPTED).body(response.getUserid());
+            }
             else throw new Exception("Coach Registration Failed");
         } catch (Exception e) {
             e.printStackTrace();

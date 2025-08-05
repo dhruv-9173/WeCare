@@ -3,6 +3,7 @@ package wecare.wecare.services;
 import wecare.wecare.DTO.CoachProfileDTO;
 import wecare.wecare.DTO.CommentDTO;
 import wecare.wecare.DTO.appointmentDTO;
+import wecare.wecare.DTO.userInfoDTO;
 import wecare.wecare.Entity.CoachProfile;
 import wecare.wecare.Entity.appointment;
 import wecare.wecare.io.UserInfoResponse;
@@ -20,4 +21,6 @@ public interface UserService {
     Boolean addComments(CommentDTO comment);
     Boolean addRatings(int rating, int coachid);
     List<CommentDTO> getAllComments(int coachid);
+
+    userInfoDTO getUser(int userid);
 }

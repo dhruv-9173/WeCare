@@ -1,11 +1,10 @@
 package wecare.wecare.io;
 
+import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Time;
 import java.time.LocalTime;
 
 @Data
@@ -13,8 +12,14 @@ import java.time.LocalTime;
 @NoArgsConstructor
 public class updateCoachProfileRequest {
 
+    @NotNull(message = "CoachId must be provided")
     private int userid;
-    private byte[] image;
+    @NotNull
+    private String coachname;
+    @NotNull
+    private String mobilenumber;
+    private String image;
+    private String speciality;
     private String description;
     private String workingdays;
     private LocalTime start;

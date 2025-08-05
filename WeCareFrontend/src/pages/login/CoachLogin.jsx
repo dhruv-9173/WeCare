@@ -4,14 +4,10 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import coach from "../../assets/coach.png"
 import useLogin from "../../hooks/useLogin"
 import Loader from '../../components/loader';
-import useLogout from '../../hooks/useLogout';
+
 function CoachLogin()
 {
-    const logout = useLogout();
-    useEffect(
-        ()=>{
-            logout();
-        },[]);
+    
     const {login,errors,loader} = useLogin();
     const handleSubmit = (e)=>
     {
@@ -71,7 +67,7 @@ function CoachLogin()
                             placeholder="Enter Password"
                         />
                 </div>
-                {errors}
+                <i style={{color:"red"}}>{errors}</i>
                 {!loader ? <Button type='submit'>Login</Button>:<Loader/>}
             </form>
             

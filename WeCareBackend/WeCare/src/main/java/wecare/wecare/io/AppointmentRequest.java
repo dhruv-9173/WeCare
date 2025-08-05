@@ -23,6 +23,7 @@ public class AppointmentRequest {
     private LocalTime starthr;
     @NotNull
     private LocalTime endhr;
+
     private String description;
 
 }

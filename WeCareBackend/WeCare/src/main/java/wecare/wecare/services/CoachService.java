@@ -2,6 +2,7 @@ package wecare.wecare.services;
 
 import wecare.wecare.DTO.CoachProfileDTO;
 import wecare.wecare.DTO.appointmentDTO;
+import wecare.wecare.DTO.userInfoDTO;
 import wecare.wecare.io.UserInfoResponse;
 
 import java.util.Collection;

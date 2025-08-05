@@ -5,20 +5,22 @@ import { useState,useEffect } from 'react';
 import {Button} from 'react-bootstrap'
 import UserRegisterValidationSchema from "../../Validation/UserRegisterValidationSchema"
 import useLogout from '../../hooks/useLogout';
-import { registerCoach } from '../../services/AuthService';
+import { registerUser } from '../../services/AuthService';
+import Loader from "../../components/loader"
+import ConfirmDialog from "../../components/confirmdialog"
+import { useNavigate } from 'react-router-dom';
 function UserSignUp()
 {
-    const logout = useLogout();
-    useEffect(
-        ()=>{
-            logout();
-        },[]);
+    const [loader, setLoader] = useState(false);
+    const [confirm, setShowConfirm] = useState(false);
+    const navigate = useNavigate();
+    const [userid, setuserid] = useState(null);
     const formik = useFormik({
         initialValues: {
             name : "",
             password : "",
             email : "",
-            mobileNumber : "",
+            mobilenumber : "",
             gender : "",
             dob : "",
             pincode : "",
@@ -27,8 +29,14 @@ function UserSignUp()
             country : "IN",
         },
         validationSchema:UserRegisterValidationSchema,
-        onSubmit:values=>{
-            console.log(registerCoach(values));
+        onSubmit: values=>{
+           setLoader(true);
+           registerUser(values)
+           .then((response) => {
+            setLoader(false);
+            setShowConfirm(true);
+            setuserid(response.data);
+           });
         },
     });
     const countries = Country.getAllCountries();
@@ -48,6 +56,13 @@ function UserSignUp()
     
     return(
         <>
+           {confirm && <ConfirmDialog 
+                    show = {"Hello"+formik.values.name}
+                    heading = {"Your UserId:" + userid}
+                    message = {"Please remember this to login"}
+                    onConfirm = {()=>{navigate("/userlogin")}}
+                    onCancel = {()=>{setShowConfirm(false)}}
+                    />}
             <div className='container' style={{
                 marginTop:"5rem",
                 marginBottom:"5rem",
@@ -98,13 +113,13 @@ function UserSignUp()
                     
                     <div className='form-group'>
                         <label htmlFor="mobileNumber" className='form-label'>Mobile Number</label>
-                        {formik.touched.mobileNumber && formik.errors.mobileNumber ? (<div className="text-danger fst-italic"> {formik.errors.mobileNumber}</div>) : null}
+                        {formik.touched.mobilenumber && formik.errors.mobilenumber ? (<div className="text-danger fst-italic"> {formik.errors.mobilenumber}</div>) : null}
                         <input 
                             type='text'
                             id="mobileNumber"
                             name="mobileNumber"
                             placeholder='Enter Mobile Number'
-                            value={formik.values.mobileNumber}
+                            value={formik.values.mobilenumber}
                             onChange={formik.handleChange}
                             onBlur={formik.handleBlur}
                             className='form-control'
@@ -131,7 +146,7 @@ function UserSignUp()
                             <input
                                 type='text'
                                 id="PinCode"
-                                name="PinCode"
+                                name="pincode"
                                 placeholder='Enter PinCode'
                                 value={formik.values.pincode}
                                 onChange={formik.handleChange}
@@ -243,7 +258,8 @@ function UserSignUp()
                     </div>
                     
                 </form>
-               <center><Button className='container' form="myform" type='submit'>Register</Button></center>
+               
+               <center>{!loader ? (<Button className='container' form="myform" type='submit'>Register</Button> ): <Loader/>}</center>
 
             </div>
         </>

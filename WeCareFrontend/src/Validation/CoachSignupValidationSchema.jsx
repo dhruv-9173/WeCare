@@ -8,10 +8,9 @@ const CoachSignupValidationSchema = yup.object().shape({
                         .min(5, "Password must have atmost 5 characters")
                         .max(10, "Password must have atmost 10 characters"),
     dob : yup.date().required("Date Of Birth Required")
-                    .min(new Date(new Date().getFullYear()-100,1,1), "Age must be atleast 100 years")
                     .max(new Date(new Date().getFullYear()-20,1,1), "Age must not be greater than 20 years"),
     gender : yup.string().required("Choose your Gender"),
-    MobileNumber : yup.string().required("Mobile Number is Required")
+    mobilenumber : yup.string().required("Mobile Number is Required")
                                .length(10,"Number should have 10 digits")
                                .matches('^[0-9]*$',"Number can only be digits"),
     speciality : yup.string().required("Speciality is required")

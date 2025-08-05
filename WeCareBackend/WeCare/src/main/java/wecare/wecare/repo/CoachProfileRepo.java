@@ -11,9 +11,10 @@ import java.util.List;
 public interface CoachProfileRepo extends JpaRepository<CoachProfile,Integer> {
 
 
+
     CoachProfile getByUserid(int coachid);
 
     UserInfoResponse getNameAndMobileNumberAndUseridByUserid(int userid);
 
-    CoachProfile getGetByUserid(int coachid);
+
 }

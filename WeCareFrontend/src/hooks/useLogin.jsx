@@ -6,23 +6,34 @@ function useLogin()
 {
     const [errors,setError] = useState("");
     const [loader,setLoader]=useState(false);
-    const {updateAuth, AddUser} = useAuthContext();
+    const {updateAuth, AddToken, AddUser} = useAuthContext();
     const navigate = useNavigate();
-    const login =async (LoginRequest)=>{
+    const login =(LoginRequest)=>{
         setLoader(true);
         try{
-            const user =  await authenticate(LoginRequest);
-            if(user)
-            {
-               console.log(user);
-               updateAuth(true);
-               AddUser(user);
-               localStorage.setItem("user",JSON.stringify(user));
-               navigate('/dashboard');
-            }
-            else {
-                setError("Invalid CoachId or Password");
-            }
+            authenticate(LoginRequest)
+            .then((response) => {
+                    console.log(response.data);
+                    localStorage.setItem("token",response.data.token);
+                    localStorage.setItem("role",response.data.role);
+                    localStorage.setItem("userid",response.data.userid);
+                    updateAuth(true);
+                    AddUser({
+                        "userid":response.data.userid,
+                        "role":response.data.role
+                    
+                });
+                AddToken(response.data.token);
+                if(response.data.role === "USER")
+                        navigate("/userdashboard");
+                else if(response.data.role === "COACH")
+                        navigate("/coachdashboard");
+                    
+            })
+            .catch((error)=>{
+                setError("Invalid Credentials");
+                
+            })
             setLoader(false);
       
         }

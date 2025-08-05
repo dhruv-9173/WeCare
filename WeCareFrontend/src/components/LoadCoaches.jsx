@@ -1,36 +1,23 @@
-import React, { useState } from "react";
+import { useState,useEffect } from "react";
 import Dropdown from 'react-bootstrap/Dropdown';
 import CoachDetailsAndAppointmentForm from "./addAppointment";
-
+import { loadAllCoaches } from "../services/UserService";
 function LoadCoaches() {
   const [search, setSearch] = useState("");
   const [sortBy, setSortBy] = useState("");
-  const [selectedCoach, setSelectedCoach] = useState(null); // holds the coach data to show
+  const [selectedCoach, setSelectedCoach] = useState([]); 
   const [showForm, setShowForm] = useState(false);
 
-  const coaches = [
-    {
-      coachId: 1,
-      name: "John Doe",
-      rating: 4.5,
-      speciality: "Fitness",
-      location: "Delhi",
-    },
-    {
-      coachId: 2,
-      name: "Alice Smith",
-      rating: 4.9,
-      speciality: "Yoga",
-      location: "Mumbai",
-    },
-    {
-      coachId: 3,
-      name: "Raj Patel",
-      rating: 4.2,
-      speciality: "Nutrition",
-      location: "Bangalore",
-    },
-  ];
+  const [coaches,setCoaches] = useState([]);
+
+  useEffect(()=>{
+      loadAllCoaches()
+        .then((response)=>{
+          console.log(response.data);
+          setCoaches(response.data);
+        })
+        
+  },[]);
 
   const handleSort = (key) => {
     setSortBy(key);
@@ -42,7 +29,7 @@ function LoadCoaches() {
     )
     .sort((a, b) => {
       if (sortBy === "speciality") return a.speciality.localeCompare(b.speciality);
-      if (sortBy === "location") return a.location.localeCompare(b.location);
+      if (sortBy === "address") return a.location.localeCompare(b.location);
       if (sortBy === "rating") return b.rating - a.rating;
       if (sortBy === "coachId") return a.coachId - b.coachId;
       return 0;
@@ -83,7 +70,8 @@ function LoadCoaches() {
         </Dropdown>
       </div>
 
-      {/* Coaches Table */}
+      
+    
       <div className="table-responsive">
         <table className="table table-bordered text-center">
           <thead className="table-light">
@@ -92,18 +80,19 @@ function LoadCoaches() {
               <th>Name</th>
               <th>Rating</th>
               <th>Speciality</th>
-              <th>Location</th>
+              
               <th>Fix Appointment</th>
             </tr>
           </thead>
           <tbody>
-            {filteredCoaches.map((coach) => (
-              <tr key={coach.coachId}>
-                <td>{coach.coachId}</td>
-                <td>{coach.name}</td>
+            {coaches.map((coach) => 
+              (
+              <tr key={coach.userid}>
+                <td>{coach.userid}</td>
+                <td>{coach.name}</td> 
                 <td>{coach.rating}</td>
                 <td>{coach.speciality}</td>
-                <td>{coach.location}</td>
+                
                 <td>
                   <button className="btn btn-success" onClick={() => handleAppointmentClick(coach)}>
                     Fix Appointment

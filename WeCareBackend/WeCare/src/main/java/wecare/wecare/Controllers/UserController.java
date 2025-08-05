@@ -32,7 +32,7 @@ public class UserController {
 
         try{
             List<CoachProfileDTO> results= userService.getAllCoaches();
-            if(results!=null){
+            if(results == null || !results.isEmpty()){
                 return ResponseEntity.ok(results);
             }
             return ResponseEntity.notFound().build();
@@ -44,11 +44,11 @@ public class UserController {
 
     @GetMapping("/gettimeslots")
     public ResponseEntity<List<ArrayList<LocalTime>>> handleGetTimeSlots(
-            @RequestParam String date_string,
+            @RequestParam LocalDate date,
             @RequestParam int coachid) {
         try {
 
-            LocalDate date = LocalDate.parse(date_string);
+
 
             List<ArrayList<LocalTime>> results = appointmentService.getTimeSlots(date, coachid);
 
@@ -124,17 +124,8 @@ public class UserController {
 
     }
 
-    @GetMapping("/getComments")
-    public ResponseEntity<List<CommentDTO>>handlegetComments(@RequestParam int coachid)
-    {
-       try{
-           List<CommentDTO>list = userService.getAllComments(coachid);
-           return ResponseEntity.ok(list);
-       }
-       catch(Exception e){
-           return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-       }
-    }
+
+
 
 
 

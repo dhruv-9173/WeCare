@@ -12,6 +12,7 @@ import wecare.wecare.io.updateCoachProfileRequest;
 import wecare.wecare.services.AppointmentService;
 import wecare.wecare.services.CoachService;
 
+import java.util.Base64;
 import java.util.List;
 
 @RestController
@@ -24,27 +25,32 @@ public class CoachController {
     private AppointmentService appointmentService;
     private final ModelMapper modelMapper = new ModelMapper();
 
-    @GetMapping("/getProfile")
-    public ResponseEntity<CoachProfileDTO> handlegetProfile() {
-            try{
-                Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-                int userid = Integer.parseInt(authentication.getName());
-                CoachProfileDTO profileDTO= coachService.getCoachProfile(userid);
-                if(profileDTO!=null){
-                    return new ResponseEntity<>(profileDTO, HttpStatus.OK);
-                }
-                return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-            }
-            catch(Exception e) {
-                return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-            }
-    }
 
-    @PostMapping("/updateProfile")
+
+    @PutMapping("/updateProfile")
     public ResponseEntity<Boolean> handleupdateProfile(@RequestBody updateCoachProfileRequest request) {
 
         try{
-            CoachProfileDTO coachProfile = modelMapper.map(request, CoachProfileDTO.class);
+            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+            int userid = Integer.parseInt(authentication.getName());
+            request.setUserid(userid);
+            byte[] imageBytes = null;
+            if (request.getImage() != null && request.getImage().startsWith("data:image")) {
+                String base64Image = request.getImage().split(",")[1];
+                imageBytes = Base64.getDecoder().decode(base64Image);
+            }
+            CoachProfileDTO coachProfile = new CoachProfileDTO().builder()
+                    .image(imageBytes)
+                    .end(request.getEnd())
+                    .start(request.getStart())
+                    .name(request.getCoachname())
+                    .userid(userid)
+                    .address(request.getAddress())
+                    .description(request.getAddress())
+                    .mobilenumber(request.getMobilenumber())
+                    .workingdays(request.getWorkingdays())
+                    .speciality(request.getSpeciality())
+                    .build();
             if(coachService.updateCoachProfile(coachProfile))
                 return ResponseEntity.status(HttpStatus.OK).body(true);
             else return ResponseEntity.status(HttpStatus.CONFLICT).body(false);
@@ -55,29 +61,13 @@ public class CoachController {
         }
     }
 
-    @GetMapping("/getAppointments")
-    public ResponseEntity<List<appointmentDTO>> handlegetAppointments() {
-        try{
-            Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-            int userid = Integer.parseInt(authentication.getName());
-            List<appointmentDTO>result = appointmentService.getCoachAppointments(userid);
-            if(result!=null){
-                return new ResponseEntity<>(result, HttpStatus.OK);
-            }
-            else return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        catch(Exception e)
-        {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-    }
 
     @PutMapping("/cancelAppointments")
     public ResponseEntity<?> handlecancelAppointments(@RequestBody appointmentDTO appointmentDTO) {
             try{
                if(appointmentService.CancelAppointment(appointmentDTO))
-                return ResponseEntity.status(HttpStatus.OK).body("Appointment has been cancelled");
-               else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task Failed");
+                return ResponseEntity.status(HttpStatus.OK).body(true);
+               else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
             }
             catch(Exception e){
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -88,8 +78,8 @@ public class CoachController {
     public ResponseEntity<?> handlecompleteAppointment(@RequestBody appointmentDTO appointmentDTO) {
         try{
             if(appointmentService.completeAppointment(appointmentDTO))
-                return ResponseEntity.status(HttpStatus.OK).body("Appointment has been completed");
-            else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task Failed");
+                return ResponseEntity.status(HttpStatus.OK).body(true);
+            else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
@@ -100,8 +90,8 @@ public class CoachController {
     public ResponseEntity<?> handleconfirmAppointment(@RequestBody appointmentDTO appointmentDTO) {
         try{
             if(appointmentService.confirmAppointment(appointmentDTO))
-                return ResponseEntity.status(HttpStatus.OK).body("Appointment has been confirmed");
-            else return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Task Failed");
+                return ResponseEntity.status(HttpStatus.OK).body(true);
+            else return ResponseEntity.status(HttpStatus.NOT_FOUND).body(false);
         }
         catch(Exception e){
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();

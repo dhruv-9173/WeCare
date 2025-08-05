@@ -10,4 +10,6 @@ public interface UserRepo extends JpaRepository<userInfo, Integer> {
     userInfo getByuserid(int userid);
 
     userInfoDTO getNameAndMobileNumberAndUseridByUserid(int userid);
+
+    userInfo getByUserid(int userid);
 }

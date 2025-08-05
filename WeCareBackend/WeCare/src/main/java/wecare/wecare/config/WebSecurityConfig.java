@@ -29,12 +29,12 @@ public class WebSecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        System.out.println("SecurityFilterChain loaded");
 
         return http
+                .cors(Customizer.withDefaults())
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/registerUser", "/registerCoach","/login").permitAll()
+                        .requestMatchers("/registerUser", "/registerCoach","/login","/signout").permitAll()
                         .requestMatchers("/user/**").hasRole("USER")
                         .requestMatchers("/coach/**").hasRole("COACH")
                         .anyRequest().authenticated()
