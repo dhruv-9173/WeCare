@@ -135,11 +135,14 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public AuthResponse authenticateProfile(@RequestBody LoginRequest authRequest) throws Exception {
+    public ResponseEntity<AuthResponse> authenticateProfile(@RequestBody LoginRequest authRequest) throws Exception {
         authenticate(authRequest);
         final UserDetails userDetails= userDetailsService.loadUserByUsername(Integer.toString(authRequest.getUserid()));
+        final String role = String.valueOf(userDetails.getAuthorities().iterator().next().getAuthority());
+        if(!role.substring(5,role.length()).equals(authRequest.getRole())) return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
         final String token = jwtTokenUtil.generateToken(userDetails);
-        return new AuthResponse(token,authRequest.getUserid(),authRequest.getRole());
+
+        return ResponseEntity.status(HttpStatus.OK).body(new AuthResponse(token,authRequest.getUserid(),authRequest.getRole()));
     }
 
     private void authenticate(LoginRequest authRequest) throws Exception {

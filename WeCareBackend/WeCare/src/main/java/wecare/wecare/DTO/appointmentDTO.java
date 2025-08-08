@@ -21,4 +21,5 @@ public class appointmentDTO {
     private LocalTime endhr;
     private String description;
     private int status;
+    
 }

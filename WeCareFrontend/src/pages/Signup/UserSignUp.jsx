@@ -116,8 +116,8 @@ function UserSignUp()
                         {formik.touched.mobilenumber && formik.errors.mobilenumber ? (<div className="text-danger fst-italic"> {formik.errors.mobilenumber}</div>) : null}
                         <input 
                             type='text'
-                            id="mobileNumber"
-                            name="mobileNumber"
+                            id="mobilenumber"
+                            name="mobilenumber"
                             placeholder='Enter Mobile Number'
                             value={formik.values.mobilenumber}
                             onChange={formik.handleChange}

@@ -28,6 +28,9 @@ function useLogin()
                         navigate("/userdashboard");
                 else if(response.data.role === "COACH")
                         navigate("/coachdashboard");
+                else{
+                    setError("INVALID ROLE....")
+                }
                     
             })
             .catch((error)=>{

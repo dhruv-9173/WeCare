@@ -14,7 +14,7 @@ const UserRegisterValidationSchema = yup.object().shape({
                     .max(new Date(new Date().getFullYear()-20,1,1), "Age must not be greater than 20 years"),
     gender : yup.string().required("Choose your Gender"),
     
-    mobileNumber : yup.string().required("Mobile Number is Required")
+    mobilenumber : yup.string().required("Mobile Number is Required")
                                .length(10,"Number should have 10 digits")
                                .matches('^[0-9]*$',"Number can only be digits"),
     

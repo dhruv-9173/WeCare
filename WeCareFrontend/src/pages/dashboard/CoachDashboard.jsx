@@ -4,7 +4,7 @@ import userImage from '../../assets/user.png';
 import { getProfile, getAppointments } from "../../services/AuthService";
 import { useState, useEffect } from 'react';
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
-import Loader from "../../components/Loader";
+import Loader from '../../components/loader';
 import SuccessBox from "../../components/SuccessBox";
 import ErrorBox from "../../components/ErrorBox";
 import { cancelAppointments, confirmAppointment } from "../../services/CoachService";
